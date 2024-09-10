@@ -1,11 +1,17 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("dagger.hilt.android.plugin")
+    id("com.google.devtools.ksp")
 }
 
 android {
     namespace = "dev.prince.joblistings"
     compileSdk = 34
+
+    hilt {
+        enableAggregatingTask = true
+    }
 
     defaultConfig {
         applicationId = "dev.prince.joblistings"
@@ -66,4 +72,28 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Dagger - Hilt
+    implementation("com.google.dagger:hilt-android:2.48")
+    implementation(libs.androidx.hilt.common)
+    ksp("com.google.dagger:hilt-android-compiler:2.48")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+
+    // Compose Nav Destinations
+    implementation("io.github.raamcosta.compose-destinations:core:1.9.52")
+    ksp("io.github.raamcosta.compose-destinations:ksp:1.9.52")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.google.code.gson:gson:2.10.1")
+
+    // Room
+    implementation("androidx.room:room-runtime:2.5.2")
+    annotationProcessor("androidx.room:room-compiler:2.5.2")
+    ksp("androidx.room:room-compiler:2.5.2")
+
+    // Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:2.5.2")
+
 }

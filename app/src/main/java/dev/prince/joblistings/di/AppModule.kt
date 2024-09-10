@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.prince.joblistings.data.repo.JobRepository
 import dev.prince.joblistings.network.ApiService
 import dev.prince.joblistings.util.BASE_URL
 import retrofit2.Retrofit
@@ -25,4 +26,11 @@ object AppModule {
     @Provides
     @Singleton
     fun provideApiService(retrofit: Retrofit) = retrofit.create(ApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideJobRepository(apiService: ApiService): JobRepository {
+            return JobRepository(apiService)
+    }
+
 }

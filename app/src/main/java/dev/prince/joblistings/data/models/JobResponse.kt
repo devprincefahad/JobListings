@@ -1,4 +1,4 @@
-package dev.prince.joblistings.data
+package dev.prince.joblistings.data.models
 
 import com.google.gson.annotations.SerializedName
 

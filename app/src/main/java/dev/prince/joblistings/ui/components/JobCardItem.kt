@@ -1,5 +1,6 @@
 package dev.prince.joblistings.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,10 +24,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.prince.joblistings.R
-import dev.prince.joblistings.data.models.Result
+import dev.prince.joblistings.data.models.ResultResponse
+import dev.prince.joblistings.db.JobEntity
 
 @Composable
-fun JobCardItem(job: Result) {
+fun JobCardItem(job: JobEntity, onBookmarkClick: (JobEntity) -> Unit) {
+    Log.d("job card item","job: $job")
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -38,9 +41,8 @@ fun JobCardItem(job: Result) {
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Column(modifier = Modifier.padding(16.dp)) {
-                val jobType = job.primaryDetails?.jobType ?: "No title available"
                 Text(
-                    text = jobType,
+                    text = job.title ?: "No title available",
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -56,7 +58,7 @@ fun JobCardItem(job: Result) {
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = job.primaryDetails?.salary ?: "No salary available",
+                        text = job.salary ?: "No salary available",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f)
@@ -76,7 +78,7 @@ fun JobCardItem(job: Result) {
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = job.primaryDetails?.place ?: "No Location",
+                        text = job.location ?: "No Location",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f)
@@ -96,7 +98,7 @@ fun JobCardItem(job: Result) {
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = job.whatsappNo ?: "No contact",
+                        text = job.phoneNum ?: "No contact",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f)
@@ -105,13 +107,13 @@ fun JobCardItem(job: Result) {
             }
 
             Icon(
-                painter = painterResource(id = R.drawable.ic_bookmark),
+                painter = painterResource(id = if (job.isBookmarked) R.drawable.ic_bookmarked else R.drawable.ic_bookmark),
                 contentDescription = "Bookmark",
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(8.dp)
                     .size(24.dp)
-                    .clickable { /* Handle bookmark click */ }
+                    .clickable { onBookmarkClick(job) }
             )
         }
     }

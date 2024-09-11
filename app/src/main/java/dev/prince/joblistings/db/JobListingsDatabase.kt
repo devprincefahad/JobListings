@@ -5,5 +5,5 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [JobEntity::class], version = 1, exportSchema = false)
 abstract class JobListingsDatabase : RoomDatabase() {
-    abstract fun jobListingDao(): JobEntity
+    abstract fun jobListingDao(): JobListingDao
 }

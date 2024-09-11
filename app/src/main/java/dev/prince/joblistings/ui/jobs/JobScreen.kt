@@ -1,5 +1,6 @@
 package dev.prince.joblistings.ui.jobs
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,14 +20,16 @@ fun JobScreen(
 ) {
 
     val jobs by viewModel.jobs.collectAsState()
+    Log.d("jobscreen","all jobs: $jobs")
 
     Column {
-
         LazyColumn {
             items(jobs) { job ->
-                JobCardItem(job)
+                JobCardItem(
+                    job = job,
+                    onBookmarkClick = { viewModel.toggleBookmark(job) }
+                )
             }
         }
     }
-
 }

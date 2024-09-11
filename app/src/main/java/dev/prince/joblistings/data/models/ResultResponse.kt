@@ -2,7 +2,7 @@ package dev.prince.joblistings.data.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Result(
+data class ResultResponse(
     @SerializedName("advertiser")
     val advertiser: Int,
     @SerializedName("amount")

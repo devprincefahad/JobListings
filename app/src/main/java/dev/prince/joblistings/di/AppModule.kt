@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.prince.joblistings.data.repo.JobRepository
+import dev.prince.joblistings.db.JobListingDao
 import dev.prince.joblistings.db.JobListingsDatabase
 import dev.prince.joblistings.network.ApiService
 import dev.prince.joblistings.util.BASE_URL
@@ -33,8 +34,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideJobRepository(apiService: ApiService): JobRepository {
-        return JobRepository(apiService)
+    fun provideJobRepository(jobListingDao: JobListingDao, apiService: ApiService): JobRepository {
+        return JobRepository(jobListingDao, apiService)
     }
 
     @Provides
@@ -47,7 +48,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideTaskDao(db: JobListingsDatabase) = db.jobListingDao()
+    fun provideJobListingDao(db: JobListingsDatabase) = db.jobListingDao()
 
     @Provides
     @Singleton

@@ -1,6 +1,7 @@
 package dev.prince.joblistings.ui.components
 
 import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -27,13 +29,15 @@ import dev.prince.joblistings.R
 import dev.prince.joblistings.data.models.ResultResponse
 import dev.prince.joblistings.db.JobEntity
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun JobCardItem(job: JobEntity, onBookmarkClick: (JobEntity) -> Unit) {
+fun LazyItemScope.JobCardItem(job: JobEntity, onBookmarkClick: (JobEntity) -> Unit) {
     Log.d("job card item","job: $job")
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .animateItemPlacement(),
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = 4.dp
         ),

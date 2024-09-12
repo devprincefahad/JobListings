@@ -19,7 +19,10 @@ fun BookmarkScreen(
     val bookmarkedJobs by viewModel.bookmarkedJobs.collectAsState()
 
     LazyColumn {
-        items(bookmarkedJobs) { job ->
+        items(
+            bookmarkedJobs,
+            key = { it.id }
+        ) { job ->
             JobCardItem(
                 job = job,
                 onBookmarkClick = { viewModel.toggleBookmark(job) }

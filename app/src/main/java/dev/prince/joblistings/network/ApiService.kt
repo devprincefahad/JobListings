@@ -8,7 +8,7 @@ interface ApiService {
 
     @GET("common/jobs")
     suspend fun getJobs(
-        //@Query("page") page: Int
+        @Query("page") page: Int
     ): JobResponse
 
 }

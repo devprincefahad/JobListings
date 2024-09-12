@@ -14,7 +14,7 @@ interface JobListingDao {
     @Query("SELECT * FROM jobs WHERE id = :jobId LIMIT 1")
     suspend fun getJobById(jobId: Int): JobEntity?
 
-    @Query("SELECT * FROM jobs")
+    @Query("SELECT * FROM jobs ORDER BY ROWID")
     fun getAllJobs(): Flow<List<JobEntity>>
 
     @Query("SELECT * FROM jobs WHERE isBookmarked = 1")

@@ -34,12 +34,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideJobRepository(jobListingDao: JobListingDao, apiService: ApiService): JobRepository {
-        return JobRepository(jobListingDao, apiService)
-    }
-
-    @Provides
-    @Singleton
     fun provideRoomInstance(@ApplicationContext context: Context) = Room.databaseBuilder(
         context = context,
         klass = JobListingsDatabase::class.java,
@@ -49,11 +43,4 @@ object AppModule {
     @Singleton
     @Provides
     fun provideJobListingDao(db: JobListingsDatabase) = db.jobListingDao()
-
-    @Provides
-    @Singleton
-    fun provideContext(@ApplicationContext context: Context): Context {
-        return context
-    }
-
 }

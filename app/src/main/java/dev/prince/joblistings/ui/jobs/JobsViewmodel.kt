@@ -1,12 +1,18 @@
 package dev.prince.joblistings.ui.jobs
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.prince.joblistings.data.repo.JobRepository
 import dev.prince.joblistings.db.JobEntity
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,28 +20,23 @@ import javax.inject.Inject
 class JobsViewModel @Inject constructor(
     private val repository: JobRepository
 ) : ViewModel() {
-    private val _jobs = MutableStateFlow<List<JobEntity>>(emptyList())
-    val jobs: StateFlow<List<JobEntity>> = _jobs
+    private var currentPage = 1
+    val jobs: StateFlow<List<JobEntity>> = repository.getAllCachedJobs().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = emptyList()
+    )
+    var loading by mutableStateOf(false)
 
-    init {
-        fetchJobs()
-        observeCachedJobs()
-    }
-
-    private fun fetchJobs() {
+    fun fetchJobs() {
         viewModelScope.launch {
+            loading = true
             try {
-                repository.fetchAndCacheJobs()
+                currentPage = repository.fetchAndCacheJobs(currentPage)
             } catch (e: Exception) {
                 e.printStackTrace()
-            }
-        }
-    }
-
-    private fun observeCachedJobs() {
-        viewModelScope.launch {
-            repository.getAllCachedJobs().collect { jobEntities ->
-                _jobs.value = jobEntities
+            } finally {
+                loading = false
             }
         }
     }

@@ -2,6 +2,7 @@ package dev.prince.joblistings.ui.components.bottomnav
 
 import android.annotation.SuppressLint
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -28,8 +29,8 @@ fun BottomBar(
         ?: NavGraphs.root.startAppDestination
 
     NavigationBar(
-        containerColor = Color.White,
-        contentColor = Color.Black
+        containerColor = MaterialTheme.colorScheme.onPrimary,
+//        contentColor = MaterialTheme.colorScheme.onPrimary
     ) {
         BottomBarDestination.entries.forEach { destination ->
             NavigationBarItem(
@@ -77,8 +78,8 @@ fun BottomBar(
                 },
                 label = { Text(stringResource(destination.label)) },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.Green,
-                    indicatorColor = Color.Green
+//                    selectedIconColor = MaterialTheme.colorScheme.onBackground,
+                    indicatorColor = MaterialTheme.colorScheme.primary
                 )
             )
         }

@@ -12,6 +12,7 @@ data class JobEntity(
     val salary: String,
     val phoneNum: String,
     val location: String,
+    val thumbUrl: String?,
     var isBookmarked: Boolean
 )
 
@@ -23,6 +24,7 @@ fun ResultResponse.toJobEntity(existingJob: JobEntity?): JobEntity {
         salary = this.primaryDetails?.salary ?: "Not disclosed",
         phoneNum = this.whatsappNo ?: "No contact available",
         location = this.primaryDetails?.place ?: "Unknown location",
-        isBookmarked = existingJob?.isBookmarked ?: false
+        isBookmarked = existingJob?.isBookmarked ?: false,
+        thumbUrl = this.creatives.firstOrNull()?.thumbUrl
     )
 }

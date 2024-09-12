@@ -31,4 +31,9 @@ class JobRepository @Inject constructor(
     suspend fun updateJob(job: JobEntity) {
         jobListingDao.insertJob(job)
     }
+
+    suspend fun getJobById(jobId: Int): JobEntity? {
+        return jobListingDao.getJobById(jobId)
+    }
+
 }
